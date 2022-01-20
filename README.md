@@ -15,6 +15,17 @@ The project has been seperated to 3 different parts.
 2. History backend
 3. Frontend
 
+
+### Step one:
+
+Create .env file into historybackend folder and with the following:
+
+```shell
+DATABASE_URL= YOUR DB URL
+DATABASE_ROW_LIMIT=10000 INCREASE THIS IF YOU DONT HAVE A ROW LIMIT.
+```
+
+### Step two:
 > Using Docker-compose
 ```shell
 docker-compose up

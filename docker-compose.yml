@@ -4,8 +4,6 @@ services:
   historybackend:
     build: ./
     restart: always
-    environment:
-      DATABASE_URL:
     ports:
       - '3001:3001'
 
