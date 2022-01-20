@@ -6,7 +6,7 @@ export const usePlayerNames = () => {
 
   useEffect(() => {
       const getPlayerNames = async () => {
-          const { data } = await axios.get<string[]>(`${process.env.REACT_APP_BACKEND_URI}/players`);
+          const { data } = await axios.get<string[]>(`${process.env.REACT_APP_BACKEND_URI}/api/players`);
           setPlayers(data);
       }
       getPlayerNames();

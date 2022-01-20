@@ -13,9 +13,9 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static('frontBuild'));
 
-app.use('/cursors', cursorRouter);
-app.use('/history', historyRouter);
-app.use('/players', playerRouter);
+app.use('/api/cursors', cursorRouter);
+app.use('/api/history', historyRouter);
+app.use('/api/players', playerRouter);
 
 
 const start = async () => {
