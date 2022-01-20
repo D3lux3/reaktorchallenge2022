@@ -11,6 +11,6 @@ services:
     image: 'websocket'
     restart: always
     environment:
-      HISTORY_API_URI: http://historyBackend:3001/history
+      HISTORY_API_URI: http://historyBackend:3001/api/history
     ports:
       - '3002:3002'
