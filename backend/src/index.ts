@@ -16,7 +16,7 @@ ws.on('message', async (data) =>  {
 });
 
 const addGameResultToHistory = async (data: DataType) => {
-    const historyApiURI = process.env.HISTORY_API_URI || 'http://localhost:3001/history';
+    const historyApiURI = process.env.HISTORY_API_URI || 'http://localhost:3001/api/history';
     try {
         const res = await axios.post(historyApiURI, data);
         console.log(res.data);
