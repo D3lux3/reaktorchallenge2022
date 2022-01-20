@@ -25,9 +25,6 @@ const addGameResultToHistory = async (data: DataType) => {
     }
 };
 
-//Only implemented express, so this heroku app can be waken up.
-
-
 
 
 

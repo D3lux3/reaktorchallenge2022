@@ -1,16 +1,16 @@
 version: '3'
 
 services:
-  historyBackend:
-    image: 'historybackend'
+  historybackend:
+    build: ./
     restart: always
     ports:
       - '3001:3001'
 
   websocketbackend:
-    image: 'websocket'
+    build: ./websocketbackend
     restart: always
     environment:
-      HISTORY_API_URI: http://historyBackend:3001/api/history
+      HISTORY_API_URI: http://historybackend:3001/api/history
     ports:
       - '3002:3002'
