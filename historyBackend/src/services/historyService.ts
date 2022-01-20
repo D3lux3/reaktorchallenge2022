@@ -13,28 +13,23 @@ import { addCursorToDB, getLatestCursor, isHistoryParsed } from './cursorService
  * @param parsedCursors All the cursors that has been parsed before.
  * @returns 
  */
-export const parseHistoryData = async (url: string, currentCursor: string, parsedCursors: string[]) => {
+export const parseHistoricalGameResults = async (url: string, currentCursor: string, parsedCursors: string[]) => {
     const res = await axios.get(url + currentCursor);
     const data = await responseSchema.validate(res.data);
-    if (!data.cursor) {
-        return;
-    }
-
-
     const cursorToBeSavedtoDB: CursorCreationAttributes = {
         cursor: currentCursor,
         nextCursor: data.cursor,
         last: (data.cursor ? false : true)
     };
 
-    if (!(await isHistoryParsed()) || !parsedCursors.includes(data.cursor)) {
+    if (data.cursor && (!(await isHistoryParsed()) || !parsedCursors.includes(data.cursor))) {
         console.log(data.cursor);
-        await doAllToDb(data.data, cursorToBeSavedtoDB);
+        await handleTransactionToDB(data.data, cursorToBeSavedtoDB);
         await deleteGameResults();
         const nextCursor = await getLatestCursor();
-        await parseHistoryData(url, nextCursor, [...parsedCursors, currentCursor]);
+        await parseHistoricalGameResults(url, nextCursor, [...parsedCursors, currentCursor]);
     } else {
-        await doAllToDb(data.data, cursorToBeSavedtoDB);
+        await handleTransactionToDB(data.data, cursorToBeSavedtoDB);
         console.log('Done');
         return;
     }
@@ -57,7 +52,7 @@ export const addOneGameResultToDB = async (data: unknown) => {
  */
 const deleteGameResults = async () => {
     const rowsLeft = await getRowLimit();
-    const historyDataCount = await amountOfHistoryData();
+    const historyDataCount = await amountOfHistoricalGameResults();
 
     if (rowsLeft <= historyDataCount) {
         console.log(`*****DELETED ALL*******  history data: ${historyDataCount} rows left: ${rowsLeft}`);
@@ -65,11 +60,11 @@ const deleteGameResults = async () => {
     }
 };
 
-const amountOfHistoryData = async () => {
+const amountOfHistoricalGameResults = async () => {
     return await GameResult.count();
 };
 
-const doAllToDb = async (data: ResponseDataType[], c: CursorCreationAttributes) => {
+const handleTransactionToDB = async (data: ResponseDataType[], c: CursorCreationAttributes) => {
     let transaction;
     try {
         transaction = await sequelize.transaction();
