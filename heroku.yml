@@ -1,5 +1,5 @@
 build:
   docker:
-    websocketbackend: backend/Dockerfile
+    web: backend/Dockerfile
   config:
     HISTORY_API_URI: "https://floating-savannah-14330.herokuapp.com/api/history"
