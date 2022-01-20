@@ -23,7 +23,7 @@ const addGameResultToHistory = async (data: DataType) => {
 
 //Only implemented express, so this heroku app can be waken up.
 app.get('/', (_req, res) => {
-    res.status(200).json({message: 'i am awake'});
+    res.status(200).json({ message: 'i am awake' });
 });
 
 const start = async () => {
